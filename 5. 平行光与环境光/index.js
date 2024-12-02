@@ -1,40 +1,15 @@
+import {camera, scene, renderer} from "lib/scene/basic.js"
 import * as THREE from "three";
-import {OrbitControls} from "three/addons/controls/OrbitControls.js"
 
-const width = 800;
-const height = 500;
+const pointLight = new THREE.PointLight(0xffffff, 1);
+const pointLightHelper = new THREE.PointLightHelper(pointLight, 10)
 
-const scene = new THREE.Scene();
+pointLight.position.set(400, 200, 200);
+pointLight.intensity = 4000;
+pointLight.decay = 1
 
-const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 5000);
-camera.position.set(200, 200, 200);
-
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(width, height);
-
-const geometry = new THREE.BoxGeometry(100, 100, 100);
-
-// 基础网格材质
-const material = new THREE.MeshLambertMaterial({
-    color: "red",
-    // QUE: 对透明度的修改无用
-    opacity: 0.4,
-    visible: true
-});
-
-// 基础网格模型
-const mesh = new THREE.Mesh(geometry, material);
-const axesHelper = new THREE.AxesHelper(150);
-
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.addEventListener('change', () => renderer.render(scene, camera) )
-
-scene.add(mesh);
-scene.add(axesHelper)
-scene.add(pointLight);
-
-mesh.position.set(0, 10, 0);
-camera.lookAt(mesh.position);
+scene.add(pointLight)
+scene.add(pointLightHelper)
 
 renderer.render(scene, camera);
 document.body.appendChild(renderer.domElement);
