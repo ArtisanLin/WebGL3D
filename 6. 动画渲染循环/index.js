@@ -1,4 +1,4 @@
-import {camera, scene, renderer, mesh} from "lib/scene/basic.js"
+import {camera, scene, renderer, mesh, fnList} from "lib/scene/basic.js"
 import * as THREE from "three";
 
 const pointLight = new THREE.PointLight(0xffffff, 40000)
@@ -13,16 +13,12 @@ scene.add(ambient)
 
 const clock = new THREE.Clock();
 
-
-function render() {
+fnList.push(() => {
     const spt = clock.getDelta()*1000;//毫秒
     console.log('两帧渲染时间间隔(毫秒)',spt);
     console.log('帧率FPS',1000/spt);
-
     mesh.rotateY(0.01);//每次绕y轴旋转0.01弧度
-    renderer.render(scene, camera);
-    requestAnimationFrame(render)
-}
+})
 
-render()
+
 document.body.appendChild(renderer.domElement);
